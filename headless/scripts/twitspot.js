@@ -14,7 +14,6 @@ var utils = require(shell.path+'/modules/utils'),
     Script = utils.Script(module.id, "twitspot.io");
 
 var http = require('http'),
-    connect = require('connect'),
     file = new (require('node-static')).Server(shell.join(__dirname, 'public')),
     twit = new (require('twit'))(shell.twitter),
     ws = require('ws');
@@ -41,10 +40,7 @@ var send = function (socket, data) {
  */
 function init(probe, callback) {
     "use strict";
-    app = connect();
-    //app.use(require('compression')());
-
-    app.use(function (req, res) {
+    server = http.createServer(function (req, res) {
         var body = '';
         req.on('data', function (chunk) {
             body += chunk;
@@ -58,9 +54,7 @@ function init(probe, callback) {
                         file.serve(req, res);
                     }
                 } else {
-                    res.writeHead(302, {
-                        'Location': '/'+shell.twitspot.hashmusictag
-                    });
+                    res.writeHead(302, {'Location': '/'+shell.twitspot.hashmusictag});
                     res.end();
                 }
             } else {
@@ -82,9 +76,7 @@ function init(probe, callback) {
                 }
             }
         }).resume();
-    });
-
-    server = http.createServer(app).listen(shell.twitspot.port, function () {
+    }).listen(shell.twitspot.port, function () {
         wss = new ws.Server({server:server});
         wss.on('connection', function (socket) {
             var pathname = socket.upgradeReq.url.replace(/.*\//, '');
