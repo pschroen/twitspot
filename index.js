@@ -24,7 +24,8 @@ var lame = require('lame'),
     Speaker = require('speaker'),
     Spotify = require('spotify-web'),
     Twit = require('twit'),
-    request = require('request');
+    request = require('request'),
+    xml2js = require('xml2js');
 
 var nowplaying = null,
     tracks = [];
@@ -120,13 +121,13 @@ function init(config) {
             console.log("Request from "+tweet.user.name+" @"+tweet.user.screen_name+" - "+tweet.text);
             var match = (new RegExp(config.hashmusictag+'\\s(.*?)$', 'i')).exec(tweet.text);
             if (match) {
-                var query = match[1],
-                    url = 'https://api.spotify.com/v1/search?q='+encodeURIComponent(query)+'&type=track';
-                request({url:url}, function (error, response, body) {
-                    if (!error) {
-                        var data = JSON.parse(body);
-                        if (data.tracks.items.length) {
-                            var track = data.tracks.items[0];
+                var query = match[1];
+                spotify.search(query, function (err, xml) {
+                    if (err) throw err;
+                    var parser = new xml2js.Parser();
+                    parser.on('end', function (data) {
+                        if (data.result.tracks.length && data.result.tracks[0]) {
+                            var track = {name:data.result.tracks[0].track[0].title[0], artists:[{name:data.result.tracks[0].track[0].artist[0]}], album:{images:[{url:'https://i.scdn.co/image/'+data.result.tracks[0].track[0]['cover-large'][0]}]}, id:data.result.tracks[0].track[0].id[0]};
                             tracks.push({track:track, tweet:tweet});
                             if (tracks.length === 1) {
                                 play(config, spotify);
@@ -141,12 +142,12 @@ function init(config) {
                                 if (!error) {
                                     var data = JSON.parse(body);
                                     if (data.spelling) {
-                                        var url = 'https://api.spotify.com/v1/search?q='+encodeURIComponent(data.spelling.correctedQuery)+'&type=track';
-                                        request({url:url}, function (error, response, body) {
-                                            if (!error) {
-                                                var data = JSON.parse(body);
-                                                if (data.tracks.items.length) {
-                                                    var track = data.tracks.items[0];
+                                        spotify.search(data.spelling.correctedQuery, function (err, xml) {
+                                            if (err) throw err;
+                                            var parser = new xml2js.Parser();
+                                            parser.on('end', function (data) {
+                                                if (data.result.tracks.length && data.result.tracks[0]) {
+                                                    var track = {name:data.result.tracks[0].track[0].title[0], artists:[{name:data.result.tracks[0].track[0].artist[0]}], album:{images:[{url:'https://i.scdn.co/image/'+data.result.tracks[0].track[0]['cover-large'][0]}]}, id:data.result.tracks[0].track[0].id[0]};
                                                     tracks.push({track:track, tweet:tweet});
                                                     if (tracks.length === 1) {
                                                         play(config, spotify);
@@ -163,9 +164,8 @@ function init(config) {
                                                         twitspot(config);
                                                     }
                                                 }
-                                            } else {
-                                                console.log("HTTP GET error: "+error);
-                                            }
+                                            });
+                                            parser.parseString(xml);
                                         });
                                     } else {
                                         console.log("No results");
@@ -189,9 +189,8 @@ function init(config) {
                                 twitspot(config);
                             }
                         }
-                    } else {
-                        console.log("HTTP GET error: "+error);
-                    }
+                    });
+                    parser.parseString(xml);
                 });
             } else {
                 console.log("No match");
@@ -209,11 +208,10 @@ function init(config) {
 function play(config, spotify) {
     "use strict";
     if (tracks[0].track) {
-        spotify.get(tracks[0].track.uri, function (err, track) {
+        spotify.get(Spotify.id2uri('track', tracks[0].track.id), function (err, track) {
             if (err) throw err;
             console.log("Playing "+track.artist[0].name+" - "+track.name);
             track.play().pipe(new lame.Decoder()).pipe(new Speaker()).on('finish', function () {
-                //spotify.disconnect();
                 tracks.shift();
                 if (tracks.length > 0) {
                     play(config, spotify);

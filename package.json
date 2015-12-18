@@ -33,6 +33,7 @@
     "request": "*",
     "speaker": "*",
     "spotify-web": "https://github.com/TooTallNate/node-spotify-web/archive/master.tar.gz",
-    "twit": "*"
+    "twit": "*",
+    "xml2js": "*"
   }
 }
