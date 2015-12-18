@@ -497,7 +497,7 @@
             console.log(data);
             if (data && data.tracks) {
                 if (data.tracks.length) {
-                    if (data.nowplaying && JSON.stringify(data.nowplaying) !== JSON.stringify(nowplaying)) {
+                    if (data.nowplaying) {
                         tracks = [];
                         var elements = document.createElement('div');
                         elements.className = 'tweets';
@@ -515,17 +515,19 @@
                         } else {
                             sidebar.appendChild(elements);
                         }
-                        twitspot.className = 'twitspot raise';
-                        nowplaying = data.nowplaying;
-                        var track = nowplaying.track,
-                            tweet = nowplaying.tweet;
-                        background.style.backgroundImage = 'url('+track.album.images[0].url+')';
-                        background.className = 'background fadein';
-                        twitspot.innerHTML = decodeURIComponent('<div class="name"><strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong></div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
-                        setTimeout(function () {
-                            twitspot.className = 'twitspot';
-                        }, 600);
-                    } else if (!data.nowplaying) {
+                        if (JSON.stringify(data.nowplaying) !== JSON.stringify(nowplaying)) {
+                            twitspot.className = 'twitspot raise';
+                            nowplaying = data.nowplaying;
+                            var track = nowplaying.track,
+                                tweet = nowplaying.tweet;
+                            background.style.backgroundImage = 'url('+track.album.images[0].url+')';
+                            background.className = 'background fadein';
+                            twitspot.innerHTML = decodeURIComponent('<div class="name"><strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong></div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
+                            setTimeout(function () {
+                                twitspot.className = 'twitspot';
+                            }, 600);
+                        }
+                    } else {
                         if (!sidebar.getElementsByClassName('tweets').length) {
                             var elements = document.createElement('div');
                             elements.className = 'tweets';
