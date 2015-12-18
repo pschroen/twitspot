@@ -42,7 +42,7 @@ var send = function (socket, data) {
 function init(probe, callback) {
     "use strict";
     app = connect();
-    app.use(require('compression')());
+    //app.use(require('compression')());
 
     app.use(function (req, res) {
         var body = '';
