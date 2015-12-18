@@ -104,6 +104,7 @@ function init(probe, callback) {
                                         var track = data.tracks.items[0];
                                         probe.log("["+exports.id+"] Found "+track.artists[0].name+" - "+track.name);
                                         trackers[pathname].tracks[0] = {track:track, tweet:tweet};
+                                        for (var i = 0; i < trackers[pathname].sockets.length; i++) send(trackers[pathname].sockets[i], {nowplaying:trackers[pathname].nowplaying, tracks:trackers[pathname].tracks});
                                     } else {
                                         var url = 'https://www.googleapis.com/customsearch/v1?q='+encodeURIComponent(query)+'&cx='+shell.google.customsearch.search_engine_id+'&key='+shell.google.customsearch.key;
                                         probe.log("["+exports.id+"] HTTP GET request for "+url);
@@ -124,6 +125,7 @@ function init(probe, callback) {
                                                                 probe.log("["+exports.id+"] No results");
                                                                 trackers[pathname].tracks[0] = {track:null, tweet:tweet};
                                                             }
+                                                            for (var i = 0; i < trackers[pathname].sockets.length; i++) send(trackers[pathname].sockets[i], {nowplaying:trackers[pathname].nowplaying, tracks:trackers[pathname].tracks});
                                                         } else {
                                                             probe.log("["+exports.id+"] HTTP GET error: "+error);
                                                         }
@@ -131,6 +133,7 @@ function init(probe, callback) {
                                                 } else {
                                                     probe.log("["+exports.id+"] No results");
                                                     trackers[pathname].tracks[0] = {track:null, tweet:tweet};
+                                                    for (var i = 0; i < trackers[pathname].sockets.length; i++) send(trackers[pathname].sockets[i], {nowplaying:trackers[pathname].nowplaying, tracks:trackers[pathname].tracks});
                                                 }
                                             } else {
                                                 probe.log("["+exports.id+"] HTTP GET error: "+error);
@@ -140,7 +143,6 @@ function init(probe, callback) {
                                 } else {
                                     probe.log("["+exports.id+"] HTTP GET error: "+error);
                                 }
-                                for (var i = 0; i < trackers[pathname].sockets.length; i++) send(trackers[pathname].sockets[i], {nowplaying:trackers[pathname].nowplaying, tracks:trackers[pathname].tracks});
                             });
                         } else {
                             probe.log("["+exports.id+"] No match");
