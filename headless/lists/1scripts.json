@@ -1,0 +1,9 @@
+{
+    "name": "Scripts",
+    "container": "node",
+    "shell": "script",
+    "items": [{
+        "text": "twitspot"
+    }],
+    "run": "forever"
+}

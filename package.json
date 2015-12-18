@@ -1,0 +1,38 @@
+{
+  "name": "twitspot",
+  "version": "1.0.0",
+  "description": "Twitter powered digital jukebox",
+  "homepage": "http://twitspot.io/",
+  "keywords": [
+    "hashmusictag",
+    "spotify",
+    "twitter",
+    "jukebox",
+    "playlist"
+  ],
+  "author": "Patrick Schroen <ps@ufotechnologies.com> (http://blog.ufotechnologies.com/)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pschroen/twitspot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pschroen/twitspot/issues"
+  },
+  "license": "MIT",
+  "bin": {
+    "twitspot": "index.js"
+  },
+  "main": "index.js",
+  "preferGlobal": "true",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "lame": "*",
+    "prompt": "*",
+    "request": "*",
+    "speaker": "*",
+    "spotify-web": "https://github.com/TooTallNate/node-spotify-web/archive/master.tar.gz",
+    "twit": "*"
+  }
+}
