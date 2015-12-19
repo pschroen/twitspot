@@ -28,12 +28,12 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "lame": "*",
-    "prompt": "*",
-    "request": "*",
-    "speaker": "*",
-    "spotify-web": "https://github.com/TooTallNate/node-spotify-web/archive/master.tar.gz",
-    "twit": "*",
-    "xml2js": "*"
+    "lame": "~1.2.3",
+    "prompt": "~0.2.14",
+    "request": "~2.67.0",
+    "speaker": "~0.2.6",
+    "spotify-web": "https://github.com/pschroen/node-spotify-web/archive/master.tar.gz",
+    "twit": "~2.1.1",
+    "xml2js": "~0.4.15"
   }
 }
