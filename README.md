@@ -89,6 +89,11 @@ Run the script named `twitspot` from your *Scripts* *List*. Visit `http://<ip ad
 * Karaoke mode
 
 
+## Changelog
+
+* [Releases](https://github.com/pschroen/twitspot/releases)
+
+
 ## Copyright & License
 
 Copyright (c) 2015 Patrick Schroen - Released under the [MIT License](LICENSE).
