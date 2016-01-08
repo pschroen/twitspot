@@ -96,4 +96,4 @@ Run the script named `twitspot` from your *Scripts* *List*. Visit `http://<ip ad
 
 ## Copyright & License
 
-Copyright (c) 2015 Patrick Schroen - Released under the [MIT License](LICENSE).
+Copyright (c) 2016 Patrick Schroen - Released under the [MIT License](LICENSE).
