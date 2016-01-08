@@ -1,6 +1,6 @@
 # twitspot - Twitter powered digital jukebox
 
-Play music using Twitter and Spotify, user generated playlists and radio.
+Play music with Twitter and Spotify, user generated playlists and radio.
 
 
 ## Installation
@@ -37,7 +37,7 @@ twitspot foobar
 
 ## Running your own twitspot server
 
-By default tracks are posted to your Hashmusictag page at twitspot.io, alternatively you can host your own server or run locally with the [Headless](https://headless.io/) framework.
+By default tracks are posted to your Hashmusictag page at twitspot.io, alternatively you can host your own server or run locally with the [Headless](https://headless.io/) framework in a [Motherless configuration](https://github.com/pschroen/headless/wiki/Motherless-configuration).
 
 ```sh
 cd headless-stable
@@ -86,6 +86,7 @@ Run the script named `twitspot` from your *Scripts* *List*. Visit `http://<ip ad
 
 ##### v1.2.x:
 
+* Voting
 * Karaoke mode
 
 
