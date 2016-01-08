@@ -115,7 +115,7 @@ function init(config) {
         var stream = T.stream('statuses/filter', {track:['#🎵'+config.hashmusictag, '#\u1f3b5'+config.hashmusictag]});
         stream.on('tweet', function (tweet) {
             console.log("Request from "+tweet.user.name+" @"+tweet.user.screen_name+" - "+tweet.text);
-            var match = (new RegExp(config.hashmusictag+'\\s(.*?)$', 'i')).exec(tweet.text);
+            var match = (new RegExp(config.hashmusictag+'\\s(.*?)$', 'i')).exec(tweet.text.replace(/\shttp.*\b/g, ''));
             if (match) {
                 var query = match[1];
                 spotify.search(query, function (err, xml) {

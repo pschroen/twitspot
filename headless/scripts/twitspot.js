@@ -89,7 +89,7 @@ function init(probe, callback) {
                     };
                     trackers[pathname].stream.on('tweet', function (tweet) {
                         probe.log("["+exports.id+"] Request from "+tweet.user.name+" @"+tweet.user.screen_name+" - "+tweet.text);
-                        var match = (new RegExp('#?\\s(.*?)$', 'i')).exec(tweet.text);
+                        var match = (new RegExp('#?\\s(.*?)$', 'i')).exec(tweet.text.replace(/\shttp.*\b/g, ''));
                         if (match) {
                             var query = match[1],
                                 url = 'https://api.spotify.com/v1/search?q='+encodeURIComponent(query)+'&type=track';
