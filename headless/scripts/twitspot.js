@@ -5,10 +5,9 @@
  * @license  MIT Licensed
  */
 
-/*jshint
- strict:true, eqeqeq:true, newcap:false, multistr:true, expr:true,
- loopfunc:true, shadow:true, node:true, indent:4
-*/
+/* jshint strict:true, eqeqeq:true, newcap:false, multistr:true, expr:true, loopfunc:true, shadow:true, node:true, indent:4 */
+/* globals shell */
+"use strict";
 
 var utils = require(shell.path+'/modules/utils'),
     Script = utils.Script(module.id, "twitspot.io");
@@ -24,7 +23,6 @@ var app = null,
     trackers = {};
 
 var send = function (socket, data) {
-    "use strict";
     if (socket) {
         socket.send(JSON.stringify(data), function (err) {
             if (err && err.message !== 'not opened' && process.env.NODE_ENV !== 'production') console.error(err.stack);
@@ -39,7 +37,6 @@ var send = function (socket, data) {
  * @param    {undefined|initCallback} [callback]
  */
 function init(probe, callback) {
-    "use strict";
     server = http.createServer(function (req, res) {
         var body = '';
         req.on('data', function (chunk) {

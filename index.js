@@ -7,15 +7,13 @@
  * @license  MIT Licensed
  */
 
-/*jshint
- strict:true, eqeqeq:true, newcap:false, multistr:true, expr:true,
- loopfunc:true, shadow:true, node:true, indent:4
-*/
+/* jshint strict:true, eqeqeq:true, newcap:false, multistr:true, expr:true, loopfunc:true, shadow:true, node:true, indent:4 */
+"use strict";
 
 var fs = require('fs'),
     path = require('path'),
     prompt = require('prompt'),
-    configPath = path.join(process.env.HOME || process.env.USERPROFILE, '.twitspot');
+    configPath = path.join(process.env.HOME || process.env.USERPROFILE, '.twitspot'),
     config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : {};
 
 if (process.argv[2]) config.hashmusictag = process.argv[2];
@@ -77,7 +75,6 @@ if (!config.hashmusictag ||
             }
         }
     }, function (err, result) {
-        "use strict";
         if (err) throw err;
         if (!config.hashmusictag) {
             config = JSON.parse(JSON.stringify(result));
@@ -105,7 +102,6 @@ if (!config.hashmusictag ||
 }
 
 function init(config) {
-    "use strict";
     var T = new Twit({
         consumer_key: config.twitter_consumer_key,
         consumer_secret: config.twitter_consumer_secret,
@@ -206,7 +202,6 @@ function init(config) {
 }
 
 function play(config, spotify) {
-    "use strict";
     if (tracks[0].track) {
         spotify.get(Spotify.id2uri('track', tracks[0].track.id), function (err, track) {
             if (err) throw err;
@@ -235,7 +230,6 @@ function play(config, spotify) {
 }
 
 function twitspot(config) {
-    "use strict";
     var url = 'http://'+config.twitspot+'/'+config.hashmusictag,
         form = JSON.stringify({nowplaying:nowplaying, tracks:tracks});
     console.log("Posting to "+url);
