@@ -41,7 +41,7 @@ By default tracks are posted to your Hashmusictag page at twitspot.io, alternati
 
 ```sh
 cd headless-stable
-curl -L -s https://github.com/pschroen/twitspot/archive/master.tar.gz | tar xvzf - --strip=2 -C users/<user>
+curl -L -s https://github.com/pschroen/twitspot/archive/master.tar.gz | tar xvzf - --strip=3 -C users/<user>
 npm install twit
 ```
 
