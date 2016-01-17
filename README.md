@@ -35,6 +35,11 @@ twitspot foobar
 ```
 
 
+## Stable playback with the `libspotify` branch
+
+For production use and installation on embedded computers it's recommended to instead use [node-spotify](https://github.com/pschroen/node-spotify) and make use of [libspotify](https://developer.spotify.com/technologies/libspotify/). This configuration however requires many more steps to get working, refer to the [libspotify branch](https://github.com/pschroen/twitspot/wiki/libspotify-branch) wiki for your environment.
+
+
 ## Running your own twitspot server
 
 By default tracks are posted to your Hashmusictag page at twitspot.io, alternatively you can host your own server or run locally with the [Headless](https://headless.io/) framework in a [Motherless configuration](https://github.com/pschroen/headless/wiki/Motherless-configuration).
@@ -71,28 +76,10 @@ Return to your Headless login page, before running the server you'll need to spe
 Run the script named `twitspot` from your *Scripts* *List*. Visit `http://<ip address>:3000/` where you should see the twitspot website running, tweet with the Hashmusictag specified and get the party started! :)
 
 
-## Roadmap
+## Resources
 
-##### v1.0.x:
-
-* Test scripts
-* Improved browser and mobile support
-* Improved cross-platform support
-
-##### v1.1.x:
-
-* Playback control
-* DJ mode
-
-##### v1.2.x:
-
-* Voting
-* Karaoke mode
-
-
-## Changelog
-
-* [Releases](https://github.com/pschroen/twitspot/releases)
+* [The Wiki](https://github.com/pschroen/twitspot/wiki)
+* [Website](http://twitspot.io/)
 
 
 ## Copyright & License
