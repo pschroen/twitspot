@@ -20,6 +20,8 @@ if (process.argv[2]) config.hashmusictag = process.argv[2];
 
 var twit = require('./lib/twit.js');
 
+var debug = require('debug')('twitspot');
+
 if (!config.hashmusictag ||
     !config.spotify_username ||
     !config.spotify_password ||
@@ -67,6 +69,7 @@ if (!config.hashmusictag ||
             }
         }
     }, function (err, result) {
+        debug('prompt  : '+err+'  '+JSON.stringify(result));
         if (err) throw err;
         if (!config.hashmusictag) {
             config = JSON.parse(JSON.stringify(result));
@@ -78,6 +81,7 @@ if (!config.hashmusictag ||
                     }
                 }
             }, function (err, result) {
+                debug('prompt  : '+err+'  '+JSON.stringify(result));
                 if (err) throw err;
                 config.hashmusictag = result.hashmusictag;
                 fs.writeFileSync(configPath, JSON.stringify(config, null, '\t'));
