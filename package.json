@@ -34,7 +34,6 @@
     "request": "~2.69.0",
     "speaker": "~0.2.6",
     "spotify-web": "https://github.com/pschroen/node-spotify-web/archive/master.tar.gz",
-    "twit": "~2.2.2",
-    "xml2js": "~0.4.16"
+    "twit": "~2.2.2"
   }
 }
