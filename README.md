@@ -1,4 +1,4 @@
-# twitspot - Twitter powered digital jukebox
+# twitspot - Twitter jukebox
 
 Play music with Twitter and Spotify, user generated playlists and radio.
 
