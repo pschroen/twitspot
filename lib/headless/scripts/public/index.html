@@ -465,67 +465,84 @@
             tracks = [];
 
         var socket = new WebSocket('ws://'+location.host+location.pathname);
+        socket.onopen = function (event) {
+            "use strict";
+            console.log("Connected to twitspot with 4 minute heartbeat");
+            setInterval(function () {
+                socket.send(JSON.stringify({
+                    message: 'heartbeat',
+                    time: Date.now()
+                }));
+            }, 240000);
+        };
         socket.onmessage = function (event) {
             "use strict";
             var data = JSON.parse(event.data);
-            console.log(data);
-            if (data && data.tracks) {
-                if (data.tracks.length) {
-                    if (data.nowplaying) {
-                        tracks = [];
-                        var elements = document.createElement('div');
-                        elements.className = 'tweets';
-                        for (var i = 0; i < data.tracks.length; i++) {
-                            var track = data.tracks[i].track,
-                                tweet = data.tracks[i].tweet,
-                                element = document.createElement('div');
-                            element.className = 'tweet'+(!track ? ' notrack' : '')+((new Date()).getTime()-parseInt(tweet.timestamp_ms, 10) < 30000 ? ' drop' : '');
-                            element.innerHTML = decodeURIComponent('<img class="profile" src="'+tweet.user.profile_image_url+'"><div class="name">'+(track ? '<strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong>' : 'No track')+'</div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
-                            elements.appendChild(element);
-                            tracks.push({track:track, tweet:tweet, element:element});
-                        }
-                        sidebar.replaceChild(elements, sidebar.getElementsByClassName('tweets')[0]);
-                        if (JSON.stringify(data.nowplaying) !== JSON.stringify(nowplaying)) {
-                            twitspot.className = 'twitspot raise';
-                            nowplaying = data.nowplaying;
-                            var track = nowplaying.track,
-                                tweet = nowplaying.tweet;
-                            background.style.backgroundImage = 'url('+track.album.images[0].url+')';
-                            background.className = 'background fadein';
-                            twitspot.innerHTML = decodeURIComponent('<div class="name"><strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong></div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
-                            setTimeout(function () {
-                                twitspot.className = 'twitspot';
-                            }, 600);
+            switch (data.message) {
+                case 'heartbeat':
+                    console.log("Heartbeat with "+(Date.now()-data.time)+"ms latency");
+                    break;
+                default:
+                    console.log(data);
+                    if (data && data.tracks) {
+                        if (data.tracks.length) {
+                            if (data.nowplaying) {
+                                tracks = [];
+                                var elements = document.createElement('div');
+                                elements.className = 'tweets';
+                                for (var i = 0; i < data.tracks.length; i++) {
+                                    var track = data.tracks[i].track,
+                                        tweet = data.tracks[i].tweet,
+                                        element = document.createElement('div');
+                                    element.className = 'tweet'+(!track ? ' notrack' : '')+((new Date()).getTime()-parseInt(tweet.timestamp_ms, 10) < 30000 ? ' drop' : '');
+                                    element.innerHTML = decodeURIComponent('<img class="profile" src="'+tweet.user.profile_image_url+'"><div class="name">'+(track ? '<strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong>' : 'No track')+'</div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
+                                    elements.appendChild(element);
+                                    tracks.push({track:track, tweet:tweet, element:element});
+                                }
+                                sidebar.replaceChild(elements, sidebar.getElementsByClassName('tweets')[0]);
+                                if (JSON.stringify(data.nowplaying) !== JSON.stringify(nowplaying)) {
+                                    twitspot.className = 'twitspot raise';
+                                    nowplaying = data.nowplaying;
+                                    var track = nowplaying.track,
+                                        tweet = nowplaying.tweet;
+                                    background.style.backgroundImage = 'url('+track.album.images[0].url+')';
+                                    background.className = 'background fadein';
+                                    twitspot.innerHTML = decodeURIComponent('<div class="name"><strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong></div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
+                                    setTimeout(function () {
+                                        twitspot.className = 'twitspot';
+                                    }, 600);
+                                }
+                            } else {
+                                var track = data.tracks[0].track,
+                                    tweet = data.tracks[0].tweet,
+                                    element = document.createElement('div');
+                                element.className = 'tweet'+(!track ? ' notrack' : '')+((new Date()).getTime()-parseInt(tweet.timestamp_ms, 10) < 30000 ? ' drop' : '');
+                                element.innerHTML = decodeURIComponent('<img class="profile" src="'+tweet.user.profile_image_url+'"><div class="name">'+(track ? '<strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong>' : 'No track')+'</div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
+                                sidebar.getElementsByClassName('tweets')[0].appendChild(element);
+                                tracks.push({track:track, tweet:tweet, element:element});
+                                if (tracks.length === 1) play();
+                            }
+                        } else {
+                            sidebar.getElementsByClassName('tweets')[0].innerHTML = '';
+                            background.className = 'background fadeout';
+                            twitspot.innerHTML = '<div class="name">What the junk, no music!?<br>Get the party started by tweeting and do it up!</div><div class="text">#🎵'+pathname+' drake&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' drake"></a><br>#🎵'+pathname+' get down on it&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' get down on it"></a></div>';
+                            if (twttr.widgets) twttr.widgets.load();
+                            nowplaying = null;
+                            tracks = [];
                         }
                     } else {
-                        var track = data.tracks[0].track,
-                            tweet = data.tracks[0].tweet,
-                            element = document.createElement('div');
-                        element.className = 'tweet'+(!track ? ' notrack' : '')+((new Date()).getTime()-parseInt(tweet.timestamp_ms, 10) < 30000 ? ' drop' : '');
-                        element.innerHTML = decodeURIComponent('<img class="profile" src="'+tweet.user.profile_image_url+'"><div class="name">'+(track ? '<strong>'+track.name+'</strong> by <strong>'+track.artists[0].name+'</strong>' : 'No track')+'</div><div class="text"><strong>'+tweet.user.name+'</strong> @'+tweet.user.screen_name+' · '+tweet.text+'</div>');
-                        sidebar.getElementsByClassName('tweets')[0].appendChild(element);
-                        tracks.push({track:track, tweet:tweet, element:element});
-                        if (tracks.length === 1) play();
+                        background.className = 'background fadeout';
+                        twitspot.innerHTML = '<div class="name">Install <a href="http://nodejs.org/" target="_blank">Node.js</a>, get your <a href="https://apps.twitter.com/">Twitter keys</a> and Spotify login.</div><pre>\n'+
+                            'sudo npm -g install twitspot\n'+
+                            'twitspot '+pathname+'\n'+
+                            '\n'+
+                            '</pre>\n'+
+                            '<div class="text">#🎵'+pathname+' drake&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' drake"></a><br>#🎵'+pathname+' get down on it&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' get down on it"></a></div>';
+                        if (twttr.widgets) twttr.widgets.load();
+                        nowplaying = null;
+                        tracks = [];
                     }
-                } else {
-                    sidebar.getElementsByClassName('tweets')[0].innerHTML = '';
-                    background.className = 'background fadeout';
-                    twitspot.innerHTML = '<div class="name">What the junk, no music!?<br>Get the party started by tweeting and do it up!</div><div class="text">#🎵'+pathname+' drake&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' drake"></a><br>#🎵'+pathname+' get down on it&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' get down on it"></a></div>';
-                    if (twttr.widgets) twttr.widgets.load();
-                    nowplaying = null;
-                    tracks = [];
-                }
-            } else {
-                background.className = 'background fadeout';
-                twitspot.innerHTML = '<div class="name">Install <a href="http://nodejs.org/" target="_blank">Node.js</a>, get your <a href="https://apps.twitter.com/">Twitter keys</a> and Spotify login.</div><pre>\n'+
-                    'sudo npm -g install twitspot\n'+
-                    'twitspot '+pathname+'\n'+
-                    '\n'+
-                    '</pre>\n'+
-                    '<div class="text">#🎵'+pathname+' drake&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' drake"></a><br>#🎵'+pathname+' get down on it&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-text="#🎵'+pathname+' get down on it"></a></div>';
-                if (twttr.widgets) twttr.widgets.load();
-                nowplaying = null;
-                tracks = [];
+                    break;
             }
         };
         socket.onerror = socket.onclose = function () {
