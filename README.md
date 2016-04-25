@@ -1,6 +1,6 @@
 # twitspot - Twitter jukebox
 
-Play music with Twitter and Spotify, user generated playlists and radio.
+Play music with Twitter, Spotify and TIDAL, user generated playlists and party starter! :)
 
 
 ## Installation
@@ -8,12 +8,23 @@ Play music with Twitter and Spotify, user generated playlists and radio.
 1. Install [Node.js](http://nodejs.org/).
 1. Visit [http://twitspot.io/](http://twitspot.io/) and create your Hashmusictag, #🎵. :)
 1. From your Terminal enter the commands on your Hashmusictag page.
-1. Enter your Spotify username and password, keys for Twitter can be obtained from your [Twitter Apps](https://apps.twitter.com/).
+1. Enter your Spotify or TIDAL username and password, keys for Twitter can be obtained from your [Twitter Apps](https://apps.twitter.com/).
 1. Return to your Hashmusictag page, and
 1. Start a party! :)
 
 ```sh
 sudo npm -g install twitspot
+```
+
+
+## TIDAL support
+
+The unofficial Node.js [TidalAPI](https://github.com/pschroen/TidalAPI) requires `ffmpeg` for playback, for example on OS X you can install with [Homebrew](http://brew.sh/). Note you'll also need Xcode and the command line tools installed before installing Homebrew.
+
+```sh
+xcode-select --install
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install ffmpeg
 ```
 
 
