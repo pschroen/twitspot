@@ -23,8 +23,14 @@ var twit = require('./lib/twit.js');
 var debug = require('debug')('twitspot');
 
 if (!config.hashmusictag ||
-    !config.spotify_username ||
-    !config.spotify_password ||
+    !config.api ||
+    (config.api === 'spotify' && (
+        !config.spotify_username ||
+        !config.spotify_password)) ||
+    (config.api === 'tidal' && (
+        !config.tidal_username ||
+        !config.tidal_password ||
+        !config.tidal_quality)) ||
     !config.twitter_consumer_key ||
     !config.twitter_consumer_secret ||
     !config.twitter_access_token ||
@@ -32,14 +38,43 @@ if (!config.hashmusictag ||
     prompt.start();
     prompt.get({
         properties: {
+            api: {
+                description: 'Spotify or Tidal',
+                required: true,
+                default: 'spotify'
+            },
             spotify_username: {
                 description: 'Spotify username',
-                required: true
+                ask: function () {
+                    return prompt.history('api').value.toLowerCase() === 'spotify';
+                }
             },
             spotify_password: {
                 description: 'Spotify password',
                 hidden: true,
-                required: true
+                ask: function () {
+                    return prompt.history('api').value.toLowerCase() === 'spotify';
+                }
+            },
+            tidal_username: {
+                description: 'Tidal username',
+                ask: function () {
+                    return prompt.history('api').value.toLowerCase() === 'tidal';
+                }
+            },
+            tidal_password: {
+                description: 'Tidal password',
+                hidden: true,
+                ask: function () {
+                    return prompt.history('api').value.toLowerCase() === 'tidal';
+                }
+            },
+            tidal_quality: {
+                description: 'Tidal quality',
+                default: 'lossless',
+                ask: function () {
+                    return prompt.history('api').value.toLowerCase() === 'tidal';
+                }
             },
             twitter_consumer_key: {
                 description: 'Twitter consumer key',
@@ -65,6 +100,7 @@ if (!config.hashmusictag ||
             },
             twitspot: {
                 description: 'Twitspot',
+                required: true,
                 default: 'twitspot.io'
             }
         }
@@ -84,11 +120,17 @@ if (!config.hashmusictag ||
                 debug('prompt  : '+err+'  '+JSON.stringify(result));
                 if (err) throw err;
                 config.hashmusictag = result.hashmusictag;
+                config.api = config.api.toLowerCase();
+                config.spotify_quality = null;
+                config.tidal_quality = config.tidal_quality.toLowerCase();
                 fs.writeFileSync(configPath, JSON.stringify(config, null, '\t'));
                 twit.init(config);
             });
         } else {
             result.hashmusictag = config.hashmusictag;
+            result.api = result.api.toLowerCase();
+            result.spotify_quality = null;
+            result.tidal_quality = result.tidal_quality.toLowerCase();
             fs.writeFileSync(configPath, JSON.stringify(result, null, '\t'));
             twit.init(result);
         }

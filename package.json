@@ -6,6 +6,7 @@
   "keywords": [
     "hashmusictag",
     "spotify",
+    "tidal",
     "twitter",
     "jukebox",
     "playlist"
@@ -29,11 +30,13 @@
   },
   "dependencies": {
     "debug": "~2.2.0",
+    "fluent-ffmpeg": "~2.0.1",
     "lame": "~1.2.3",
     "prompt": "~1.0.0",
-    "request": "~2.69.0",
-    "speaker": "~0.2.6",
+    "request": "~2.72.0",
+    "speaker": "~0.3.0",
     "spotify-web": "https://github.com/pschroen/node-spotify-web/archive/master.tar.gz",
-    "twit": "~2.2.2"
+    "tidalapi": "https://github.com/pschroen/TidalAPI/archive/master.tar.gz",
+    "twit": "~2.2.3"
   }
 }
