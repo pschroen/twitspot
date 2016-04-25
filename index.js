@@ -14,13 +14,16 @@ var fs = require('fs'),
     path = require('path'),
     prompt = require('prompt'),
     configPath = path.join(process.env.HOME || process.env.USERPROFILE, '.twitspot'),
-    config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : {};
+    config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : {},
+    version = JSON.parse(fs.readFileSync('package.json')).version;
 
 if (process.argv[2]) config.hashmusictag = process.argv[2];
 
 var twit = require('./lib/twit.js');
 
 var debug = require('debug')('twitspot');
+
+console.log('twitspot/'+version);
 
 if (!config.hashmusictag ||
     !config.api ||
