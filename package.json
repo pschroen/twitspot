@@ -9,7 +9,8 @@
     "tidal",
     "twitter",
     "jukebox",
-    "playlist"
+    "playlist",
+    "slack"
   ],
   "author": "Patrick Schroen <ps@ufotechnologies.com> (http://blog.ufotechnologies.com/)",
   "repository": {

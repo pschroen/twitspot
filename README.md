@@ -51,6 +51,11 @@ twitspot foobar
 For production use and installation on embedded computers it's recommended to instead use [node-spotify](https://github.com/pschroen/node-spotify) and make use of [libspotify](https://developer.spotify.com/technologies/libspotify/). This configuration however requires many more steps to get working, refer to the [libspotify branch](https://github.com/pschroen/twitspot/wiki/libspotify-branch) wiki for your environment.
 
 
+## Slack integration
+
+Bundled with twitspot is a [Headless](https://headless.io/) framework [server script](https://github.com/pschroen/twitspot/blob/master/lib/headless/scripts/slackamp.js) you can use as a Slack integration, refer to the [Slack integration](https://github.com/pschroen/twitspot/wiki/Slack-integration) wiki for steps to setup.
+
+
 ## Resources
 
 * [The Wiki](https://github.com/pschroen/twitspot/wiki)
