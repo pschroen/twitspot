@@ -46,6 +46,11 @@ twitspot foobar
 ```
 
 
+## Stable playback with the `libspotify` branch
+
+For production use and installation on embedded computers it's recommended to instead use [node-spotify](https://github.com/pschroen/node-spotify) and make use of [libspotify](https://developer.spotify.com/technologies/libspotify/). This configuration however requires many more steps to get working, refer to the [libspotify branch](https://github.com/pschroen/twitspot/wiki/libspotify-branch) wiki for your environment.
+
+
 ## Resources
 
 * [The Wiki](https://github.com/pschroen/twitspot/wiki)
