@@ -39,6 +39,16 @@
             font-weight: 300;
             font-style: normal;
         }
+        @font-face {
+            font-family: 'icons-twitspot';
+            src: url('assets/fonts/icons-twitspot.eot');
+            src: url('assets/fonts/icons-twitspot.eot#iefix') format('embedded-opentype'),
+                 url('assets/fonts/icons-twitspot.woff') format('woff'),
+                 url('assets/fonts/icons-twitspot.ttf') format('truetype'),
+                 url('assets/fonts/icons-twitspot.svg#icons-twitspot') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
         html, body {
             height: 100%;
             overflow: hidden;
@@ -211,8 +221,8 @@
             display: block;
             width: 96px;
             height: 27px;
-            padding: 0 12px 0 12px;
             margin: 0;
+            padding: 0 12px 0 12px;
             background: #f8f8f0;
             border-radius: 5px;
             box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 1px 0 0 rgba(0, 0, 0, 0.2);
@@ -221,23 +231,14 @@
             position: relative;
             display: block;
             width: 96px;
-            height: 16px;
-            top: 6px;
+            height: 24px;
+            top: 1px;
             left: 0;
             padding: 0;
             border: none;
             font-size: 12px;
-            line-height: 16px;
-            vertical-align: middle;
-            border-radius: 5px;
-            box-shadow: 0 0 0 0, 0 0 0 0;
+            line-height: 24px;
             background-color: #f8f8f0;
-            -webkit-rtl-ordering: logical;
-            -webkit-user-select: text;
-            cursor: auto;
-            -webkit-appearance: textfield;
-            -webkit-box-sizing: content-box;
-            box-sizing: content-box;
         }
         pre {
             max-width: 680px;
@@ -245,6 +246,21 @@
             text-align: left;
             -webkit-user-select: text;
             cursor: auto;
+        }
+        .icon {
+            font-family: 'icons-twitspot';
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            line-height: 1em;
+            speak: none;
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            text-align: center;
+            text-transform: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         .btn {
             position: absolute;
@@ -289,6 +305,18 @@
             position: absolute;
             left: 0px;
             top: 0px;
+        }
+        .heart {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            opacity: .8;
+        }
+        .heart:hover:before {
+            content: 'Made with ';
+        }
+        .heart:hover:after {
+            content: ' in Toronto, Canada';
         }
         .fadein {
             -webkit-animation: fadein 1s;
@@ -445,6 +473,7 @@
         </div>
     </div>
     <a class="github" href="https://github.com/pschroen/twitspot" target="_blank" draggable="false"><img src="data:image/png;base64,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" alt="Fork me on GitHub"></a>
+    <a class="heart" href="http://blog.ufotechnologies.com/" target="_blank" draggable="false"><i class="icon icon-heart-empty">&#xe800;</i></a>
     <script>
         /**
          * twitspot.io.
