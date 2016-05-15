@@ -124,7 +124,6 @@ if (!config.hashmusictag ||
                 if (err) throw err;
                 config.hashmusictag = result.hashmusictag;
                 config.api = config.api.toLowerCase();
-                config.spotify_quality = null;
                 config.tidal_quality = config.tidal_quality.toLowerCase();
                 fs.writeFileSync(configPath, JSON.stringify(config, null, '\t'));
                 twit.init(config);
@@ -132,7 +131,6 @@ if (!config.hashmusictag ||
         } else {
             result.hashmusictag = config.hashmusictag;
             result.api = result.api.toLowerCase();
-            result.spotify_quality = null;
             result.tidal_quality = result.tidal_quality.toLowerCase();
             fs.writeFileSync(configPath, JSON.stringify(result, null, '\t'));
             twit.init(result);
