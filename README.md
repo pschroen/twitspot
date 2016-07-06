@@ -1,6 +1,6 @@
 # twitspot - Twitter jukebox
 
-Play music with Twitter, Spotify and TIDAL, user generated playlists and party starter! :)
+Play music with Twitter, Spotify, TIDAL and Slack, user generated playlists and party starter! :)
 
 
 ## Installation
@@ -17,9 +17,27 @@ sudo npm -g install twitspot
 ```
 
 
-## TIDAL support
+## Spotify dependencies
 
-The unofficial Node.js [TidalAPI](https://github.com/pschroen/TidalAPI) requires `ffmpeg` for playback, for example on OS X you can install with [Homebrew](http://brew.sh/). Note you'll also need Xcode and the command line tools installed before installing Homebrew.
+[node-spotify](https://github.com/FrontierPsychiatrist/node-spotify) requires `libspotify`, for example on OS X you can install with [Homebrew](http://brew.sh/). Note you'll also need Xcode and the command line tools installed before installing Homebrew.
+
+```sh
+xcode-select --install
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install libspotify
+```
+
+You'll need to download your Binary key from your Spotify [application keys](https://devaccount.spotify.com/my-account/keys/), and transfer your `spotify_appkey.key` to your home directory.
+
+```sh
+mv ~/Downloads/spotify_appkey.key ~/
+```
+
+
+
+## TIDAL dependencies
+
+The unofficial Node.js [TidalAPI](https://github.com/lucaslg26/TidalAPI) requires `ffmpeg` for playback, for example on OS X you can install with [Homebrew](http://brew.sh/). Note you'll also need Xcode and the command line tools installed before installing Homebrew.
 
 ```sh
 xcode-select --install
@@ -44,11 +62,6 @@ To listen for #🎵foobar.
 ```sh
 twitspot foobar
 ```
-
-
-## Stable playback with the `libspotify` branch
-
-For production use and installation on embedded computers it's recommended to instead use [node-spotify](https://github.com/pschroen/node-spotify) and make use of [libspotify](https://developer.spotify.com/technologies/libspotify/). This configuration however requires many more steps to get working, refer to the [libspotify branch](https://github.com/pschroen/twitspot/wiki/libspotify-branch) wiki for your environment.
 
 
 ## Slack integration
