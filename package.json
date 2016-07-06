@@ -36,7 +36,7 @@
     "prompt": "~1.0.0",
     "request": "~2.72.0",
     "speaker": "~0.3.0",
-    "tidalapi": "https://github.com/pschroen/TidalAPI/archive/master.tar.gz",
+    "tidalapi": "~0.2.2",
     "twit": "~2.2.4",
     "wav": "~1.0.0"
   }
