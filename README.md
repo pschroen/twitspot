@@ -53,7 +53,7 @@ For production use and installation on embedded computers it's recommended to in
 
 ## Slack integration
 
-Bundled with twitspot is a [Headless](https://headless.io/) framework [server script](https://github.com/pschroen/twitspot/blob/master/lib/headless/scripts/slackamp.js) you can use as a Slack integration, refer to the [Slack integration](https://github.com/pschroen/twitspot/wiki/Slack-integration) wiki for steps to setup.
+Bundled with twitspot are a couple [Headless](https://headless.io/) framework scripts you can use as a Slack integration, refer to the [Slack integration](https://github.com/pschroen/twitspot/wiki/Slack-integration) wiki for steps to setup.
 
 
 ## Resources
