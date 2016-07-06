@@ -32,7 +32,7 @@
   "dependencies": {
     "debug": "~2.2.0",
     "fluent-ffmpeg": "~2.1.0",
-    "node-spotify": "https://github.com/pschroen/node-spotify/archive/master.tar.gz",
+    "node-spotify": "https://github.com/FrontierPsychiatrist/node-spotify/archive/master.tar.gz",
     "prompt": "~1.0.0",
     "request": "~2.72.0",
     "speaker": "~0.3.0",
